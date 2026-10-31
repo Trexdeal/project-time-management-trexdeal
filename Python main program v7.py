@@ -28,23 +28,67 @@ def stmenu():
     global size, maincan
     maincan = 1
     menu=True
-    datacreate = [[]]
+    datacreate = []
 
-    
-    
+
 
 #Unfinished
 
 
+def Datacreatefunc():
+    global datacreate, size 
+    for n in datacreate:
+        obj = n[0] #(object)
+        Dsize = [n[1[0]]/size[0]*1920,n[1[1]]/size[1]*1080] #size x and y (D size to differentiate from the global size)
+        loc = [n[2[0]]/size[0]*1920, n[2[1]]/size[1]*1080] #we love our multicolour code, this devides the input location (x and y) by the relative screen size
+        col = [n[3]] # colours everywhere, used to determine the primary and secondary/line colour
+        if n[4[0]] == True:
+            inta = True
+            hitbox = [n[4[1]], n[4[2]]] #hitbox for a  possible interactable part
+            hdisplacement = [datacreate[n[4[3]]], datacreate[n[4[4]]]] #how much the hitbox needs to be displaced in x and y
+        Nobject = n[5[0]]
+        Tno = n[5[0]] #same as Nobject but used to check how far along it is in the loop, could mabye be moved inside later
+        OBJdis = [n[5[1]]/size[0]*1920 , n[5[2]]/size[1]*1080] #xy distance between different identical objects, standard direction is up
+        canvasloc =n[7]
+        if n[8[0]] == True:
+            temp = "remove" #remove this part later, used for pottentially displaying images, but idk how yet
+        while Nobject >= 0:
+            loc[0,1] = [loc[0]+(Tno-Nobject)*OBJdis[0], loc[1]+(Tno-Nobject)*OBJdis[1]]
+            #now I will differentiate into different objects
+            if obj == "rectangle":
+                canvasloc.create_rectangle(loc[0]-Dsize[0]/2, loc[1]-Dsize[1]/2, loc[0]+Dsize[0]/2, loc[1]+Dsize[1]/2, fill=col[0], outline=col[1])
+            elif obj == "circle":
+                canvasloc.create_oval(loc[0]-Dsize[0]/2, loc[1]-Dsize[1]/2, loc[0]+Dsize[0]/2, loc[1]+Dsize[1]/2, fill=col[0], outline=col[1])
+            elif obj == "polygon":
+                canvas_1_5.create_polygon
 
-def create_circle():
-    global sqn
+        
+
+        
+        
+        
+
+
+        
+
+    
+
+   
+
+
+
+
+
+
+#(sqx*size(0)/2, sqy*size(1)/2,sqx*size(0)/2+1/2*size(0),sqy*size(1)/2+1/2*size(1), fill=colL(sqn))
+            
+
 
 def is_running(script_name):
     try:
-        for p in psutil.process_iter(["name", "cmdline"]):
+        for p in psutil.process_iter(("name", "cmdline")):
             try:
-                cmd = p.info.get("cmdline") or []
+                cmd = p.info.get("cmdline") or ()
                 if any(script_name in c for c in cmd):
                     return True
             except Exception:
@@ -62,24 +106,18 @@ def begin_variables_clicking():
     qn=0
     #qn is to define on what question you are
     datacreate=[]
-    #datacreate consists of this structured type of list, [type of object (square, circle, polygon,etc), size, relxloc, relyloc, colour1, colour 2, amount of this object, relxdistance between objects, relydistance between objects, nameobject, polygoncount ]
-        #if polygon then extra things will be added to show which 
-        #rel stands for relative, to avoid issues with different screen sizes
-        #colour 2 may go unused for certain shapes, in which case it will be identical to colour 1
-        #nameobject will be changed if it is creating multiple objects, something similar to ["name",number"]
-        #polygoncount optional
-    qai = []
+    qai = ()
     answer = 0
     quizz = False
     xloc = 0
     yloc = 0
     ccolour= "white"
-    text = []
+    text = ()
     state = 0
+    #state is the variable that defines what state the program is in, 0= start 1=study mode, 2=break mode, 3=free/unrestricted mode, 4=work mode
     Astate = True
     #is this state allowed to be changed 
     size = (sizex, sizey) = (1920,1200)
-    #state is the variable that defines what state the program is in, 0= start 1=study mode, 2=break mode, 3=free/unrestricted mode, 4=work mode
     sqloop = (sqx, sqy, sqn) = (0, 0, 0)
     #used in the square loop to create different locations and colours for every square
     cirr=(100, 100)
@@ -88,9 +126,9 @@ def begin_variables_clicking():
     maincan = 0
     menu.configure()
     canvas_menu=tk.Canvas(menu, background=ccolour)
-    canvas_1_5=tk.Canvas(root, background=ccolour,  width=size[0],height=size[1])
+    canvas_1_5=tk.Canvas(root, background=ccolour,  width=size(0),height=size(1))
     
-    colL=["#ba060f","#222d80","#158F3E","#AF570F"]
+    colL=("#ba060f","#222d80","#158F3E","#AF570F")
     #colours list
     clock=datetime.now()
     
@@ -153,20 +191,20 @@ def on_click(event):
 
 # to create a polygon you have to give the two coordinates of each point in the polygon, so for a triangle you need 3 points, for a square you need 4 points, and so on. The points are given in the form of (x1,y1,x2,y2,x3,y3,...) shut up ai slop
 #points of the polygon
-pointsp=[]
+pointsp=()
 sides=8
 for n in range(sides):
     angle=2*math.pi*n/sides
-    x=sizex/2+cirr[0]*math.cos(angle)
-    y=sizey/2+cirr[1]*math.sin(angle)
-    pointsp.extend([x,y])
+    x=sizex/2+cirr(0)*math.cos(angle)
+    y=sizey/2+cirr(1)*math.sin(angle)
+    pointsp.extend((x,y))
 #lowk I don't fully understand this code, maybe need to take a look at it
-poly = [(pointsp[i], pointsp[i+1]) for i in range(0, len(pointsp), 2)]
+poly = ((pointsp(i), pointsp(i+1)) for i in range(0, len(pointsp), 2))
 
 
 #banned programs:
-#steam, (all steam subsidiaries), botw
-banned1=["steam", "Hoi4", "hoi4", "Paradox", "paradox","minecraft", "modrinth","chrome" "kerbal space program", "KSP", "ksp", "Kerbal Space Program", "Kerbalspaceprogram","google" "Kerbal space program","RIMWORLD", "Rimworld", "War Thunder", "WT", "WarThunder", "Gajin"]
+#steam, (all steam subsidiaries), botw, Chrome
+banned1=("steam", "Hoi4", "hoi4", "Paradox","Chrome.exe", "Chrome.exe", "paradox","Google Chrome","Google", "Notion", "Chrome", "minecraft", "modrinth","chrome" "kerbal space program", "KSP", "ksp", "Kerbal Space Program", "Kerbalspaceprogram","google" "Kerbal space program","RIMWORLD", "Rimworld", "War Thunder", "WT", "WarThunder", "Gajin")
 
 
 
@@ -175,8 +213,8 @@ banned1=["steam", "Hoi4", "hoi4", "Paradox", "paradox","minecraft", "modrinth","
 def Allowed_processes():
     global banned1
     for name in banned1:
-        for proc in psutil.process_iter(["name"]):
-            proc_name = proc.info["name"]
+        for proc in psutil.process_iter(("name")):
+            proc_name = proc.info("name")
             if proc_name and name.lower() in proc_name.lower():
                 close_processes()
                 return True
@@ -187,8 +225,8 @@ def Allowed_processes():
 
 def close_processes():
     for name in banned1:
-        for proc in psutil.process_iter(["name"]) :
-            proc_name = proc.info["name"]
+        for proc in psutil.process_iter(("name")) :
+            proc_name = proc.info("name")
             if proc_name and name.lower() in proc_name.lower():
                 try:
                     proc.kill()
@@ -205,8 +243,8 @@ def point_in_polygon(x, y, poly):
     inside = False
 
     for i in range(num):
-        xi, yi = poly[i]
-        xj, yj = poly[j]
+        xi, yi = poly(i)
+        xj, yj = poly(j)
         if ((yi > y) != (yj > y)) and (x < (xj - xi) * (y - yi) / (yj - yi) + xi):
             inside = not inside
         j = i
@@ -216,7 +254,7 @@ def point_in_polygon(x, y, poly):
 #function for creating 1 unique square
 def create_square():
     global sqloop
-    canvas_1_5.create_rectangle(sqx*size[0]/2, sqy*size[1]/2,sqx*size[0]/2+1/2*size[0],sqy*size[1]/2+1/2*size[1], fill=colL[sqn])
+    canvas_1_5.create_rectangle(sqx*size(0)/2, sqy*size(1)/2,sqx*size(0)/2+1/2*size(0),sqy*size(1)/2+1/2*size(1), fill=colL(sqn))
     #creates squares using the variables sqn for the number square sqx for its x location, sqy for its y location, size(0) and size(1) for its horizontal and vertical size and co1l(sqn) for its colours, could maybe be made into one big list like this (sq(n(1-4)))
 
 #function for creating all 4 squares
@@ -333,7 +371,7 @@ keyboard.on
 
 while True:
     if not is_running("sidescript.py"):
-        subprocess.Popen([sys.executable, "sidescript.py"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen((sys.executable, "sidescript.py"), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     time.sleep(5)
 #honestly I have no Idea what this script is, I added this a while ago to have a kinda subsupporting window so it couldn't be individually closed, but now I have no idea how it does this, I could use logic similar to the part where it checks for other programs though, that might be a future addition
