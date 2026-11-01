@@ -34,31 +34,48 @@ def stmenu():
 
 #Unfinished
 
-
+#n(0) done
+#n1 done
+#n2 done
+#n3 done
+#n4 working on
+#n5 working on
+#n6 done
+#n7 done
+#n8 no clue
 def Datacreatefunc():
     global datacreate, size 
     for n in datacreate:
+        
         obj = n[0] #(object)
         Dsize = [n[1[0]]/size[0]*1920,n[1[1]]/size[1]*1080] #size x and y (D size to differentiate from the global size)
         loc = [n[2[0]]/size[0]*1920, n[2[1]]/size[1]*1080] #we love our multicolour code, this devides the input location (x and y) by the relative screen size
         col = [n[3]] # colours everywhere, used to determine the primary and secondary/line colour
+        oname=n[6]
         if n[4[0]] == True:
             inta = True
             hitbox = [n[4[1]], n[4[2]]] #hitbox for a  possible interactable part
             hdisplacement = [datacreate[n[4[3]]], datacreate[n[4[4]]]] #how much the hitbox needs to be displaced in x and y
-        Nobject = n[5[0]]
-        Tno = n[5[0]] #same as Nobject but used to check how far along it is in the loop, could mabye be moved inside later
+        Nobject = n[5[0]] #amount of times an object needs to be created
+        
         OBJdis = [n[5[1]]/size[0]*1920 , n[5[2]]/size[1]*1080] #xy distance between different identical objects, standard direction is up
         canvasloc =n[7]
         if n[8[0]] == True:
             temp = "remove" #remove this part later, used for pottentially displaying images, but idk how yet
-        while Nobject >= 0:
-            loc[0,1] = [loc[0]+(Tno-Nobject)*OBJdis[0], loc[1]+(Tno-Nobject)*OBJdis[1]]
+        for j in range(Nobject):
+            if Nobject != 1:
+                nname = oname + j
+            else:
+                nname = oname
+
+
+
+            loc[0,1] = [loc[0]+(j-1)*OBJdis[0], loc[1]+(j-1)*OBJdis[1]]
             #now I will differentiate into different objects
             if obj == "rectangle":
-                canvasloc.create_rectangle(loc[0]-Dsize[0]/2, loc[1]-Dsize[1]/2, loc[0]+Dsize[0]/2, loc[1]+Dsize[1]/2, fill=col[0], outline=col[1])
+                canvasloc.create_rectangle(loc[0]-Dsize[0]/2, loc[1]-Dsize[1]/2, loc[0]+Dsize[0]/2, loc[1]+Dsize[1]/2, fill=col[0], outline=col[1], name=nname)
             elif obj == "circle":
-                canvasloc.create_oval(loc[0]-Dsize[0]/2, loc[1]-Dsize[1]/2, loc[0]+Dsize[0]/2, loc[1]+Dsize[1]/2, fill=col[0], outline=col[1])
+                canvasloc.create_oval(loc[0]-Dsize[0]/2, loc[1]-Dsize[1]/2, loc[0]+Dsize[0]/2, loc[1]+Dsize[1]/2, fill=col[0], outline=col[1], name=nname)
             elif obj == "polygon":
                 radius = [Dsize[0]/2, Dsize[1]/2]
                 nsides = n[0[1]]
@@ -66,8 +83,12 @@ def Datacreatefunc():
                 for i in range(nsides):
                     pcords.append(radius[0]*math.cos(2*math.pi*(i/nsides)))
                     pcords.append(radius[0]*math.sin(2*math.pi*(i/nsides)))
-                canvasloc.create_polygon(pcords, fill=col[0], outline=col[1])
-                
+                canvasloc.create_polygon(pcords, fill=col[0], outline=col[1], name=nname )
+
+
+
+
+
 
 
                 
