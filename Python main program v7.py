@@ -24,11 +24,11 @@ def questionwrite():
 
 
 def stmenu():
-    print("menu started") # pyright: ignore[reportUndefinedVariable]
+    print("menu started") # pyright: ignore[reportUndefinedVariable]    
     global size, maincan
     maincan = 1
     menu=True
-    datacreate = []
+
 
 
 
@@ -39,36 +39,36 @@ def stmenu():
 #n2 done
 #n3 done
 #n4 working on
-#n5 working on
+ #needs to be split up in types of interactions, etc
+ #no clue how, but I can make a check to see if something is within a polygon
+#n5 done
 #n6 done
 #n7 done
-#n8 no clue
+#n8 no clue # will not be fixed before main release, sorry but adding pictures currently isn't the top priority
 def Datacreatefunc():
     global datacreate, size 
     for n in datacreate:
         
         obj = n[0] #(object)
-        Dsize = [n[1[0]]/size[0]*1920,n[1[1]]/size[1]*1080] #size x and y (D size to differentiate from the global size)
-        loc = [n[2[0]]/size[0]*1920, n[2[1]]/size[1]*1080] #we love our multicolour code, this devides the input location (x and y) by the relative screen size
-        col = [n[3]] # colours everywhere, used to determine the primary and secondary/line colour
+        Dsize = [[n][1][0]/size[0]*1920,n[1][1]/size[1]*1080] #size x and y (D size to differentiate from the global size)
+        loc = [n[2][0]/size[0]*1920, n[2][1]/size[1]*1080] #we love our multicolour code, this devides the input location (x and y) by the relative screen size
+        col = [n[3]] #used to determine the primary and secondary/line colour
         oname=n[6]
-        if n[4[0]] == True:
+        if n[4][0] == True:
             inta = True
-            hitbox = [n[4[1]], n[4[2]]] #hitbox for a  possible interactable part
-            hdisplacement = [datacreate[n[4[3]]], datacreate[n[4[4]]]] #how much the hitbox needs to be displaced in x and y
-        Nobject = n[5[0]] #amount of times an object needs to be created
+            hitbox = [n[4][1], n[4][2]] #hitbox for a  possible interactable part
+            hdisplacement = [n[4][3], n[4][4]] #how much the hitbox needs to be displaced in x and y
+        Nobject = n[5][0] #amount of times an object needs to be created
         
-        OBJdis = [n[5[1]]/size[0]*1920 , n[5[2]]/size[1]*1080] #xy distance between different identical objects, standard direction is up
+        OBJdis = [n[5][1]/size[0]*1920 , n[5][2]/size[1]*1080] #xy distance between different identical objects, standard direction is up
         canvasloc =n[7]
-        if n[8[0]] == True:
+        if n[8][0] == True:
             temp = "remove" #remove this part later, used for pottentially displaying images, but idk how yet
         for j in range(Nobject):
             if Nobject != 1:
                 nname = oname + j
             else:
                 nname = oname
-
-
 
             loc[0,1] = [loc[0]+(j-1)*OBJdis[0], loc[1]+(j-1)*OBJdis[1]]
             #now I will differentiate into different objects
@@ -78,26 +78,24 @@ def Datacreatefunc():
                 canvasloc.create_oval(loc[0]-Dsize[0]/2, loc[1]-Dsize[1]/2, loc[0]+Dsize[0]/2, loc[1]+Dsize[1]/2, fill=col[0], outline=col[1], name=nname)
             elif obj == "polygon":
                 radius = [Dsize[0]/2, Dsize[1]/2]
-                nsides = n[0[1]]
+                nsides = n[0][1]
                 pcords = []
                 for i in range(nsides):
-                    pcords.append(radius[0]*math.cos(2*math.pi*(i/nsides)))
-                    pcords.append(radius[0]*math.sin(2*math.pi*(i/nsides)))
+                    pcords.append(radius[0]*math.cos(2*math.pi*((i-1)/nsides)))
+                    pcords.append(radius[0]*math.sin(2*math.pi*((i-1)/nsides)))
                 canvasloc.create_polygon(pcords, fill=col[0], outline=col[1], name=nname )
+                
 
 
+#okay so n sides inlude all of the sides points, I think that maybe I could get the minimum and max x or y points at any place using math, then check if it's within those boundaries 
+#could just make it a circular hitbox but that is boring
 
 
 
 
 
                 
-                canvas_1_5.create_polygon(
-                    #essentially this should choose the x and y for each point in the polygon, for simplicities sake I will choose to make every polygon the same size
-                    
-                    )
-
-        
+                
 
         
         
@@ -233,7 +231,7 @@ for n in range(sides):
     x=sizex/2+cirr[0]*math.cos(angle)
     y=sizey/2+cirr[1]*math.sin(angle)
     pointsp.extend((x,y))
-#lowk I don't fully understand this code, maybe need to take a look at it
+#nvm I understand it now
 poly = [(pointsp(i), pointsp(i+1)) for i in range(0, len(pointsp), 2)]
 
 
@@ -285,6 +283,8 @@ def point_in_polygon(x, y, poly):
         j = i
 
     return inside
+#interactable should probably be something similar to this
+
 
 #function for creating 1 unique square
 def create_square():
